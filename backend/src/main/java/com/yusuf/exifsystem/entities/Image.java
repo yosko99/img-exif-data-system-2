@@ -15,17 +15,15 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String filepath;
     private float lon;
     private float lat;
     private String filename;
-    private String thumbnailPath;
+    private String thumbnailName;
 
-    public Image(String filepath, float lon, float lat, String filename, String thumbnailPath) {
-        this.filepath = filepath;
+    public Image(float lon, float lat, String filename, String thumbnailPath) {
         this.lon = lon;
         this.lat = lat;
         this.filename = filename;
-        this.thumbnailPath = thumbnailPath;
+        this.thumbnailName = thumbnailPath;
     }
 }

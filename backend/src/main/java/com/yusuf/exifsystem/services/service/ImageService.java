@@ -10,6 +10,8 @@ import com.yusuf.exifsystem.models.response.MessageResponse;
 public interface ImageService {
     List<ImageDTO> getImages(float minLon, float maxLon, float minLat, float maxLat);
 
+    ImageDTO getImage(String filename);
+
     MessageResponse deleteImage(long id);
 
     MessageResponse uploadImages(MultipartFile[] files);

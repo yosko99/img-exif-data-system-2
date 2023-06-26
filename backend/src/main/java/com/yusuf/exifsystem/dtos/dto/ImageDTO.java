@@ -1,5 +1,5 @@
 package com.yusuf.exifsystem.dtos.dto;
 
-public record ImageDTO(String filepath, String thumbnailPath) {
+public record ImageDTO(String filename, String thumbnailName) {
 
 }

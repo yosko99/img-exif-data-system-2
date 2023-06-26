@@ -8,6 +8,10 @@ spring:
     url: jdbc:postgresql://localhost/exif-system-db
     username: postgres
     password: example
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
   jpa:
     hibernate:
       ddl-auto: create

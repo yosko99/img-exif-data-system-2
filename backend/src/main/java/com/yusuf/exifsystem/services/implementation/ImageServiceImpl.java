@@ -36,4 +36,10 @@ public class ImageServiceImpl implements ImageService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'uploadImages'");
     }
+
+    @Override
+    public ImageDTO getImage(String filename) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getImage'");
+    }
 }
