@@ -14,7 +14,7 @@
 	<name>exif-system</name>
 	<description>System for storing/retrieving images which can be queried to return all images inside a geographical bounding box, that is defined by min and max latitude/longitude.</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

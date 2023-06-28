@@ -5,7 +5,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/exif-system-db
+    url: jdbc:postgresql://db/postgres
     username: postgres
     password: example
   servlet:
