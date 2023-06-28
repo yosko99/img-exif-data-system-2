@@ -5,7 +5,7 @@ const deleteBtn = document.getElementById('deleteButton');
 const fetchImagesForm = document.getElementById('fetchImages');
 const refetchAlert = document.getElementById('refetchAlert');
 
-const socket = new WebSocket('ws://localhost:8080');
+const API_ROUTE = "http://localhost:8080/api/images/";
 
 const populateLinksDiv = () => {
   refetchAlert.classList.remove('hide');
@@ -25,9 +25,8 @@ const populateLinksDiv = () => {
 
 deleteBtn.addEventListener('click', (e) => {
   const filepath = e.target.getAttribute('filepath');
-  fetch(`http://localhost:5000/${filepath}`, { method: 'DELETE' })
+  fetch(`${API_ROUTE}${filepath}`, { method: 'DELETE' })
     .then((response) => response.json()).then((data) => {
-      socket.send('refetch');
       populateLinksDiv();
     });
 });
@@ -42,16 +41,16 @@ const importImages = (images) => {
     const text = document.createElement('a');
 
     text.innerHTML = image.filename;
-    text.setAttribute('filepath', image.filepath);
-    text.setAttribute('thumbnailPath', image.thumbnailPath);
+    text.setAttribute('filepath', image.filename);
+    text.setAttribute('thumbnailPath', image.thumbnailName);
     text.style.cursor = 'pointer';
     text.style.margin = '2px';
 
     text.addEventListener('click', (e) => {
-      thumbnail.src = '/uploads/' + e.target.getAttribute('thumbnailPath');
+      thumbnail.src = API_ROUTE + e.target.getAttribute('thumbnailPath');
 
-      thumbnail.setAttribute('filepath', '/uploads/' + image.filepath);
-      deleteBtn.setAttribute('filepath', image.filepath);
+      thumbnail.setAttribute('filepath', API_ROUTE + image.filename);
+      deleteBtn.setAttribute('filepath', image.filename);
 
       thumbnailHolder.classList.remove('hide');
       thumbnailHolder.classList.add('show');
@@ -67,16 +66,11 @@ uploadForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
 
-  fetch('http://localhost:5000/upload', { method: 'POST', body: formData })
+  fetch(API_ROUTE, { method: 'POST', body: formData })
     .then((response) => response.json()).then((data) => {
-      if (data.error !== '') {
-        alert(`${data.message} ${data.error}`);
-      } else {
-        alert(data.message);
-      }
-      fetchAndAppendImages(fetchImagesForm);
+      alert(`${data.message}`);
 
-      socket.send('refetch');
+      fetchAndAppendImages(fetchImagesForm);
     });
 });
 
@@ -84,7 +78,7 @@ function fetchAndAppendImages (form) {
   const formData = new FormData(form);
   const { minLon, maxLon, minLat, maxLat } = Object.fromEntries(formData);
 
-  fetch(`http://localhost:5000/images?minLon=${minLon}&maxLon=${maxLon}&minLat=${minLat}&maxLat=${maxLat}`)
+  fetch(`${API_ROUTE}?minLon=${minLon}&maxLon=${maxLon}&minLat=${minLat}&maxLat=${maxLat}`)
     .then((response) => response.json())
     .then((data) => {
       linksDiv.innerHTML = '';
@@ -106,7 +100,3 @@ fetchImagesForm.addEventListener('submit', (e) => {
   e.preventDefault();
   fetchAndAppendImages(fetchImagesForm);
 });
-
-socket.onmessage = () => {
-  populateLinksDiv();
-};

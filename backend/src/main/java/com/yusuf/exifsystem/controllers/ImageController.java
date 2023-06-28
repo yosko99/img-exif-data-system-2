@@ -19,7 +19,8 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/images")
+@RequestMapping("/api/images/")
+@CrossOrigin
 public class ImageController {
     private final ImageService imageService;
 
