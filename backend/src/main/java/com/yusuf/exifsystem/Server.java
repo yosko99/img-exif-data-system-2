@@ -16,6 +16,7 @@ public class Server {
     @Bean
     CommandLineRunner init(StorageService storageService) {
         return (args) -> {
+            storageService.deleteAll();
             storageService.init();
         };
     }

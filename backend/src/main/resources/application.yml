@@ -10,8 +10,8 @@ spring:
     password: example
   servlet:
     multipart:
-      max-file-size: 500MB
-      max-request-size: 500MB
+      max-file-size: 10GB
+      max-request-size: 10GB
   jpa:
     hibernate:
       ddl-auto: create

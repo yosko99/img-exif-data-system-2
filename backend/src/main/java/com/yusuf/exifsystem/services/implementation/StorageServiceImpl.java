@@ -118,6 +118,22 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    public void deleteOne(String filename) {
+        Path filePath = rootLocation.resolve(filename);
+        if (Files.exists(filePath)) {
+            try {
+                Files.delete(filePath);
+                System.out.println("File deleted successfully: " + filename);
+            } catch (IOException e) {
+                System.out.println("Failed to delete file: " + filename);
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File does not exist: " + filename);
+        }
+    }
+
+    @Override
     public void init() {
         try {
             Files.createDirectories(rootLocation);

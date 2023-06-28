@@ -1,9 +1,6 @@
 package com.yusuf.exifsystem.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,14 +12,14 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private float lon;
-    private float lat;
+    @Embedded
+    private Coordinates coordinates;
+
     private String filename;
     private String thumbnailName;
 
-    public Image(float lon, float lat, String filename, String thumbnailPath) {
-        this.lon = lon;
-        this.lat = lat;
+    public Image(Coordinates coordinates, String filename, String thumbnailPath) {
+        this.coordinates = coordinates;
         this.filename = filename;
         this.thumbnailName = thumbnailPath;
     }
