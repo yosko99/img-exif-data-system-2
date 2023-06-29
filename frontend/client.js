@@ -7,6 +7,13 @@ const refetchAlert = document.getElementById('refetchAlert');
 
 const API_ROUTE = "http://localhost:8080/api/images/";
 
+const showLoading = () => {
+  setTimeout(() => {
+    refetchAlert.classList.remove('show');
+    refetchAlert.classList.add('hide');
+  }, 1000);
+}
+
 const populateLinksDiv = () => {
   refetchAlert.classList.remove('hide');
   refetchAlert.classList.add('show');
@@ -17,10 +24,7 @@ const populateLinksDiv = () => {
   thumbnailHolder.classList.add('hide');
   thumbnail.src = '';
 
-  setTimeout(() => {
-    refetchAlert.classList.remove('show');
-    refetchAlert.classList.add('hide');
-  }, 1000);
+  showLoading();
 };
 
 deleteBtn.addEventListener('click', (e) => {
@@ -69,7 +73,6 @@ uploadForm.addEventListener('submit', (e) => {
   fetch(API_ROUTE, { method: 'POST', body: formData })
     .then((response) => response.json()).then((data) => {
       alert(`${data.message}`);
-
       fetchAndAppendImages(fetchImagesForm);
     });
 });

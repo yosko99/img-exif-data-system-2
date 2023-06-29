@@ -1,5 +1,7 @@
 package com.yusuf.exifsystem.services.implementation;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +24,6 @@ import com.yusuf.exifsystem.entities.Image;
 import com.yusuf.exifsystem.entities.Coordinates;
 import com.yusuf.exifsystem.services.service.StorageService;
 import jakarta.transaction.Transactional;
-import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,6 +39,8 @@ import com.yusuf.exifsystem.services.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.imageio.ImageIO;
 
 @Service
 @RequiredArgsConstructor
@@ -97,12 +100,20 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private void generateThumbnail(MultipartFile image) throws IOException {
-        String inputImagePath = "images/" + image.getOriginalFilename();
-        File inputFile = new File(inputImagePath);
-        String outputPath = "images/" + "thumbnail_" + image.getOriginalFilename();
-        Thumbnails.of(inputFile)
-                .size(256, 256)
-                .toFile(outputPath);
+        String imagePath = "images/" + image.getOriginalFilename();
+        String outputImagePath = "images/thumbnail_" + image.getOriginalFilename();
+
+        File inputFile = new File(imagePath);
+        BufferedImage inputImage = ImageIO.read(inputFile);
+
+        BufferedImage thumbnail = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = thumbnail.createGraphics();
+        graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+        graphics2D.drawImage(inputImage, 0, 0, 256, 256, null);
+        graphics2D.dispose();
+
+        File outputFile = new File(outputImagePath);
+        ImageIO.write(thumbnail, "jpg", outputFile);
     }
 
     private void saveFileAndGenerateThumbnails(Map<MultipartFile, Coordinates> imagesWithCoordinates) {
