@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yusuf.exifsystem.dtos.dto.ImageDTO;
 import com.yusuf.exifsystem.models.response.MessageResponse;
+import com.yusuf.exifsystem.models.response.UploadImageResponse;
 
 public interface ImageService {
     List<ImageDTO> getImagesBetweenCoordinates(float minLon, float maxLon, float minLat, float maxLat);
@@ -19,5 +20,5 @@ public interface ImageService {
 
     MessageResponse deleteImageByFilename(String filename);
 
-    MessageResponse uploadImages(MultipartFile[] files) throws ImageProcessingException, IOException;
+    UploadImageResponse uploadImages(MultipartFile[] files) throws ImageProcessingException, IOException;
 }
